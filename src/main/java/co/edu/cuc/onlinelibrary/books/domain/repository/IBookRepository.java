@@ -7,9 +7,6 @@ import java.util.Optional;
 
 public interface IBookRepository {
     List<BookDto> findAll();
-
     Optional<BookDto> findById(Integer bookId);
-
     BookDto save(BookDto book);
-    void deleteById(Integer bookId);
 }

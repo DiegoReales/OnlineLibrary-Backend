@@ -1,13 +1,18 @@
-package co.edu.cuc.onlinelibrary.books.domain.dto;
+package co.edu.cuc.onlinelibrary.books.persistence.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto {
+@Entity
+@Table(name = "users")
+public class BookUserEntity {
+
+    @Id
     private Integer id;
     private String username;
     private String firstname;

@@ -9,11 +9,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "books")
-public class BookDto extends AuditorEntity {
+public class BookEntity extends AuditorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "author_id")
     private Integer authorId;
+
     private String isbn;
     private String title;
     private String description;
@@ -21,4 +24,12 @@ public class BookDto extends AuditorEntity {
     private Integer available;
     private Integer status;
     private Boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", insertable = false, updatable = false)
+    private AuthorEntity author;
+
+    @ManyToOne
+    @JoinColumn(name = "status", insertable = false, updatable = false)
+    private BookStatusEntity bookStatus;
 }

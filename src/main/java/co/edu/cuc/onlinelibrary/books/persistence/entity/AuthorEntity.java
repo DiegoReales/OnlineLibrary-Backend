@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "author")
+@Table(name = "authors")
 public class AuthorEntity extends AuditorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -29,6 +29,14 @@ public class BookDto extends AuditorDto {
         this.stock = req.getStock();
         this.available = req.getAvailable();
         this.status = req.getAvailable();
-        this.active = req.getActive();
+    }
+
+    public void decrementAvailable() {
+        this.available--;
+    }
+
+
+    public void incrementAvailable() {
+        this.available++;
     }
 }

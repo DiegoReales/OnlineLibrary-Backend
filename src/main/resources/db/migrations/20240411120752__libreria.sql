@@ -6,12 +6,16 @@ CREATE TABLE "authors"(
     "id" SERIAL NOT NULL,
     "name" VARCHAR(100) NOT NULL,
     "lastname" VARCHAR(100) NOT NULL,
-    "active" BOOLEAN NOT NULL
+    "active" BOOLEAN NOT NULL,
+    "created_by" INTEGER,
+    "created_at" TIMESTAMP WITHOUT TIME ZONE,
+    "updated_by" INTEGER,
+    "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE "borrow_status"(
     "id" SMALLINT NOT NULL,
-    "description" VARCHAR(255) NOT NULL
+    "description" VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE "books"(
@@ -23,7 +27,11 @@ CREATE TABLE "books"(
     "stock" INTEGER NOT NULL,
     "available" INTEGER NOT NULL,
     "status" SMALLINT NOT NULL,
-    "active" BOOLEAN NOT NULL
+    "active" BOOLEAN NOT NULL,
+    "created_by" INTEGER,
+    "created_at" TIMESTAMP WITHOUT TIME ZONE,
+    "updated_by" INTEGER,
+    "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE "books_borrowed"(
@@ -32,12 +40,16 @@ CREATE TABLE "books_borrowed"(
     "user_id" INTEGER NOT NULL,
     "checkout" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
     "checkin" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "status" SMALLINT NOT NULL
+    "status" SMALLINT NOT NULL,
+    "created_by" INTEGER,
+    "created_at" TIMESTAMP WITHOUT TIME ZONE,
+    "updated_by" INTEGER,
+    "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE "book_status"(
     "id" SMALLINT NOT NULL,
-    "description" BIGINT NOT NULL
+    "description" VARCHAR(20) NOT NULL
 );
 
 ALTER TABLE "authors" ADD PRIMARY KEY("id");

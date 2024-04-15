@@ -13,5 +13,4 @@ public class BookRequestBody {
     private Integer stock;
     private Integer available;
     private Integer status;
-    private Boolean active;
 }
