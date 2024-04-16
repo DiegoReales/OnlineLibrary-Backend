@@ -1,16 +1,19 @@
 package co.edu.cuc.onlinelibrary.books.domain.service;
 
-import co.edu.cuc.onlinelibrary.books.domain.dto.BookDto;
-import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookRequestBody;
+import co.edu.cuc.onlinelibrary.books.domain.dto.BookBorrowedDto;
+import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookCheckOutRequestBody;
 
 import java.util.List;
 
 public interface IBookBorrowedService {
-    List<BookDto> findAll();
+    List<BookBorrowedDto> findAll();
 
-    BookDto findById(Integer bookId);
+    List<BookBorrowedDto> findPending();
 
-    BookDto create(BookRequestBody req);
-    BookDto update(BookRequestBody req, Integer bookId);
-    void deleteById(Integer bookId);
+    List<BookBorrowedDto> findFinished();
+
+    BookBorrowedDto findById(Integer bookBorrowedId);
+
+    BookBorrowedDto checkOut(BookCheckOutRequestBody requestBody);
+    BookBorrowedDto checkIn(Integer bookBorrowedId);
 }

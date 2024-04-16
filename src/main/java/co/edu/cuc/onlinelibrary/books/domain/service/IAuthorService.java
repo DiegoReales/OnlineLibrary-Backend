@@ -1,9 +1,7 @@
 package co.edu.cuc.onlinelibrary.books.domain.service;
 
 import co.edu.cuc.onlinelibrary.books.domain.dto.AuthorDto;
-import co.edu.cuc.onlinelibrary.books.domain.dto.BookDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.AuthorRequestBody;
-import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookRequestBody;
 
 import java.util.List;
 

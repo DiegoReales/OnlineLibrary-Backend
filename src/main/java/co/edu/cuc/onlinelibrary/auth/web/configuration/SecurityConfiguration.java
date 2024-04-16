@@ -42,15 +42,12 @@ public class SecurityConfiguration {
 
     private static final String DIVIDER = "\\|";
     protected static final String[] URI_WHITE_LIST = new String[] {
-            "/monitor**",
             "/auth/login",
             "/auth/refresh-token",
             "/auth/recovery-password",
-            "/v3/api-docs**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/crypto/encrypt",
-            "/crypto/decrypt"
+            "/v3/api-docs",
+            "/swagger-ui/index.html",
+            "/swagger-ui.html"
     };
 
     @Bean

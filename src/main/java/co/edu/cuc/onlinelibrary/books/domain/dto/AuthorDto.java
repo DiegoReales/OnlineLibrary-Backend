@@ -3,12 +3,8 @@ package co.edu.cuc.onlinelibrary.books.domain.dto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.AuditorDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.AuthorRequestBody;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

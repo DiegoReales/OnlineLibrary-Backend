@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @JsonInclude(Include.NON_NULL)
-public class MenuBranchDto extends MenuItemDto {
+public class MenuBranchDto extends MenuItemDto implements Serializable {
 	
 	private List<MenuBranchDto> children;
 

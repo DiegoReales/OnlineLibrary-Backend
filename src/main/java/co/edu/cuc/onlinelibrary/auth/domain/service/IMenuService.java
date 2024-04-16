@@ -1,6 +1,5 @@
 package co.edu.cuc.onlinelibrary.auth.domain.service;
 
-import co.edu.cuc.onlinelibrary.auth.domain.dto.MenuBranchDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.MenuDto;
 
 import java.util.List;

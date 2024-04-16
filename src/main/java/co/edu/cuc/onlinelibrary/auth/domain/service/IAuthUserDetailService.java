@@ -1,12 +1,10 @@
 package co.edu.cuc.onlinelibrary.auth.domain.service;
 
-import co.edu.cuc.onlinelibrary.auth.domain.dto.ChangePasswordDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.MenuBranchDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.PasswordRecoveryDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.RoleDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;

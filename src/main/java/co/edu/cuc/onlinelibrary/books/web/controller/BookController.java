@@ -7,6 +7,7 @@ import co.edu.cuc.onlinelibrary.books.domain.dto.BookBorrowedDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.BookDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookCheckOutRequestBody;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookRequestBody;
+import co.edu.cuc.onlinelibrary.books.domain.service.IBookBorrowedService;
 import co.edu.cuc.onlinelibrary.books.domain.service.IBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +87,5 @@ public class BookController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-    
 
 }

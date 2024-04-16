@@ -14,7 +14,8 @@ public interface IBookService {
 
     BookDto create(BookRequestBody req);
     BookDto update(BookRequestBody req, Integer bookId);
+
+    BookDto save(BookDto book);
+
     void deleteById(Integer bookId);
-    BookBorrowedDto checkOut(BookCheckOutRequestBody requestBody);
-    BookBorrowedDto checkIn(Integer bookBorrowedId);
 }

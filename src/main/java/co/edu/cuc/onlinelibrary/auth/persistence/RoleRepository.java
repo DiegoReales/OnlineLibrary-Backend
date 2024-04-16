@@ -12,12 +12,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,7 +38,7 @@ public class RoleRepository implements IRoleRepository {
         List<RoleEntity> entities = (List<RoleEntity>) roleCrudRepository.findAll();
         return entities.stream()
                 .map(roleMapper::toRoleDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -39,7 +39,7 @@ CREATE TABLE "books_borrowed"(
     "book_id" INTEGER NOT NULL,
     "user_id" INTEGER NOT NULL,
     "checkout" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-    "checkin" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    "checkin" TIMESTAMP(0) WITHOUT TIME ZONE,
     "status" SMALLINT NOT NULL,
     "created_by" INTEGER,
     "created_at" TIMESTAMP WITHOUT TIME ZONE,
@@ -63,3 +63,9 @@ ALTER TABLE "books" ADD CONSTRAINT "books_status_foreign" FOREIGN KEY("status") 
 ALTER TABLE "books" ADD CONSTRAINT "books_author_id_foreign" FOREIGN KEY("author_id") REFERENCES "authors"("id");
 ALTER TABLE "books_borrowed" ADD CONSTRAINT "books_borrowed_status_foreign" FOREIGN KEY("status") REFERENCES "borrow_status"("id");
 ALTER TABLE "books_borrowed" ADD CONSTRAINT "books_borrowed_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "users"("user_id");
+
+INSERT INTO book_status (id, description) VALUES(1, 'DISPONIBLE');
+INSERT INTO book_status (id, description) VALUES(2, 'OCUPADO');
+
+INSERT INTO borrow_status (id, description) VALUES(1, 'EN PROGRESO');
+INSERT INTO borrow_status (id, description) VALUES(2, 'TERMINADO');

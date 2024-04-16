@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 public class RoleService implements IRoleService {
 
+    private static final String NOT_FOUND_MSG = "Rol no encontrado.";
     private final IRoleRepository roleRepository;
 
     public RoleService(IRoleRepository iRoleRepository) {
@@ -28,13 +29,13 @@ public class RoleService implements IRoleService {
     @Override
     public RoleDto findById(int roleId) {
         return roleRepository.findById(roleId)
-                .orElseThrow(() -> new HttpNotFoundException("Role no encontrado"));
+                .orElseThrow(() -> new HttpNotFoundException(NOT_FOUND_MSG));
     }
 
     @Override
     public RoleDto findByIdWithPermission(int roleId) {
         return roleRepository.findByIdWithPermission(roleId)
-                .orElseThrow(() -> new HttpNotFoundException("Permiso no encontrado"));
+                .orElseThrow(() -> new HttpNotFoundException(NOT_FOUND_MSG));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class RoleService implements IRoleService {
         try {
             return roleRepository.syncPermissionsToRole(roleId, permissionsIds);
         } catch (EntityNotFoundException e) {
-            throw new HttpNotFoundException("Rol no encontrado");
+            throw new HttpNotFoundException(NOT_FOUND_MSG);
         }
     }
 
@@ -65,7 +66,7 @@ public class RoleService implements IRoleService {
         try {
             return roleRepository.addPermissionToRole(roleId, permissionId);
         } catch (EntityNotFoundException e) {
-            throw new HttpNotFoundException("Rol no encontrado");
+            throw new HttpNotFoundException(NOT_FOUND_MSG);
         }
     }
 
@@ -75,7 +76,7 @@ public class RoleService implements IRoleService {
         try {
             return roleRepository.removePermissionToRole(roleId, permissionId);
         } catch (EntityNotFoundException e) {
-            throw new HttpNotFoundException("Rol no encontrado");
+            throw new HttpNotFoundException(NOT_FOUND_MSG);
         }
     }
 

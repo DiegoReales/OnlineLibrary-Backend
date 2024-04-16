@@ -9,8 +9,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @OpenAPIDefinition
@@ -20,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         scheme = "bearer",
         bearerFormat = "JWT"
 )
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfig {
 
     @Value("${info.build.title}")
     private String title;
@@ -36,13 +34,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
         return new OpenAPI()
                 .info(new Info().title(title).version(version).description(description))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
-                .resourceChain(false);
     }
 }
 

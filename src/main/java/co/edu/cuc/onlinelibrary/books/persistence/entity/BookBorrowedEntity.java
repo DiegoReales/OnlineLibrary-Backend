@@ -24,7 +24,7 @@ public class BookBorrowedEntity extends AuditorEntity {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "checkouts")
+    @Column(name = "checkout")
     private LocalDateTime checkOut;
 
     @Column(name = "checkin")
