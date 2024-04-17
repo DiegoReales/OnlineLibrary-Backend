@@ -6,12 +6,15 @@ import co.edu.cuc.onlinelibrary.auth.domain.dto.PasswordRecoveryDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.UserDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.AuthRefreshRequestBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.AuthRequestBody;
+import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.SignUpRequestBody;
+import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.UserRequestBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.responsebody.AuthRefreshTokenResponseBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.responsebody.AuthResponseBody;
 import co.edu.cuc.onlinelibrary.auth.domain.enums.AuthParams;
 import co.edu.cuc.onlinelibrary.auth.domain.service.IAuthService;
 import co.edu.cuc.onlinelibrary.auth.domain.service.IAuthUserDetailService;
 import co.edu.cuc.onlinelibrary.auth.domain.service.IGoogleRecaptchaService;
+import co.edu.cuc.onlinelibrary.auth.domain.service.IUserService;
 import co.edu.cuc.onlinelibrary.auth.domain.util.JwtRefreshUtil;
 import co.edu.cuc.onlinelibrary.auth.domain.util.JwtUtil;
 import co.edu.cuc.onlinelibrary.auth.domain.exception.HttpBadRequestException;
@@ -39,8 +42,10 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
+    private static final int SIGNUP_DEFAULT_ROLE = 2;
 
     private final IAuthUserDetailService userDetailService;
+    private final IUserService userService;
     private final IGoogleRecaptchaService googleRecaptchaService;
     private final IParameterService parameterService;
     private final JwtUtil jwtUtil;
@@ -51,7 +56,7 @@ public class AuthService implements IAuthService {
     private boolean isEnableGoogleRecaptcha;
     
     @Override
-    public AuthResponseBody login(AuthRequestBody auth, String ipRemote) {
+    public AuthResponseBody signIn(AuthRequestBody auth, String ipRemote) {
         if (isEnableGoogleRecaptcha) validateRecaptchaToken(auth.getRecaptchaToken(), ipRemote);
         UserDto userDetails = (UserDto) userDetailService.loadUserByUsername(auth.getUsername());
         // Check Inactive user
@@ -86,6 +91,22 @@ public class AuthService implements IAuthService {
         userDetails.setCurrentToken(authResponseBody.getAccessToken());
         userDetailService.updateCurrentToken(userDetails.getUsername(), authResponseBody.getAccessToken());
         return authResponseBody;
+    }
+
+    @Override
+    public UserDto signUp(SignUpRequestBody req) {
+        UserRequestBody userRequestBody = new UserRequestBody();
+
+        userRequestBody.setUsername(req.getEmail());
+        userRequestBody.setPassword(req.getPassword());
+        userRequestBody.setPasswordConfirm(req.getPasswordConfirm());
+        userRequestBody.setDni(req.getDni());
+        userRequestBody.setName(req.getName());
+        userRequestBody.setLastname(req.getLastname());
+        userRequestBody.setRoleId(SIGNUP_DEFAULT_ROLE);
+        userRequestBody.setActive(true);
+
+        return userService.create(userRequestBody);
     }
 
     @Override

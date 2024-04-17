@@ -42,7 +42,8 @@ public class SecurityConfiguration {
 
     private static final String DIVIDER = "\\|";
     protected static final String[] URI_WHITE_LIST = new String[] {
-            "/auth/login",
+            "/auth/signin",
+            "/auth/signup",
             "/auth/refresh-token",
             "/auth/recovery-password",
             "/v3/api-docs",

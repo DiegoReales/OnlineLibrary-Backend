@@ -17,34 +17,6 @@ CREATE TABLE public.action_log (
 
 
 --
--- TOC entry 216 (class 1259 OID 33312)
--- Name: ani; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.ani (
-    cedula numeric(16,0) NOT NULL,
-    nombre1 character varying(60),
-    nombre2 character varying(60),
-    apellido1 character varying(60),
-    apellido2 character varying(60),
-    particula character varying(60),
-    vigencia character varying(60),
-    fecha_nacim timestamp without time zone,
-    fecha_exped timestamp without time zone,
-    letras character varying(6),
-    fecha_resol timestamp without time zone,
-    resolucion character varying(60),
-    genero character varying(6),
-    coddptonacim smallint,
-    codmuninacim smallint,
-    desdptonacim character varying(60),
-    decmuninacim character varying(60),
-    tipo_doc character varying(2),
-    nivel_educativo smallint DEFAULT 1
-);
-
-
---
 -- TOC entry 220 (class 1259 OID 33339)
 -- Name: menus; Type: TABLE; Schema: public; Owner: -
 --
@@ -246,16 +218,9 @@ CREATE TABLE public.users (
     single_session boolean DEFAULT true NOT NULL,
     current_token character varying(255),
     active boolean DEFAULT true NOT NULL,
-    firstname character varying(100),
-    secondname character varying(100),
-    firstsurname character varying(100),
-    secondsurname character varying(100),
+    name character varying(100),
+    lastname character varying(100),
     dni character varying(12),
-    dniexpdate date,
-    birthdate date,
-    email character varying(100),
-    celularphone character varying(12),
-    localphone character varying(12),
     created_by integer,
     created_at timestamp without time zone,
     updated_by integer,
@@ -282,15 +247,6 @@ INSERT INTO public.parameters VALUES (1, 'AUTH_VGR', 'S', 'Validación de Google
 INSERT INTO public.parameters VALUES (2, 'AUTH_IDLE_TIME', '300', 'Tiempo límite de inactividad en segundos', true, 1, '2024-01-06 11:02:39.461');
 INSERT INTO public.parameters VALUES (3, 'AUTH_PASSWORD_LENGTH', '12', 'Tamaño de contraseña por defecto', true, 1, '2024-01-06 11:02:39.461');
 INSERT INTO public.parameters VALUES (4, 'AUTH_PASSWORD_EXPMIN', '300', 'Tiempo de expiración de contaseña en minutos', true, 1, '2024-01-06 11:02:39.461');
-
-
---
--- TOC entry 4863 (class 0 OID 33389)
--- Dependencies: 223
--- Data for Name: password_recovery; Type: TABLE DATA; Schema: public; Owner: -
---
-
-INSERT INTO public.password_recovery VALUES (1, 4, '$2a$10$kfZ7TnMyH1puG.WtIwAqyOgYTP4LIJxkBXTl1dLld0cLy9ydhylT2', false, '2024-01-31 23:49:15.324667', '2024-01-31 18:49:15.324667');
 
 
 --
@@ -324,7 +280,6 @@ INSERT INTO public.permissions VALUES (31, 'user:delete', 'Eliminar un usuario',
 INSERT INTO public.permissions VALUES (32, 'parameter:index', 'Listar todos los parametros', NULL, NULL, NULL, NULL);
 INSERT INTO public.permissions VALUES (33, 'parameter:show', 'Consultar parametro', NULL, NULL, NULL, NULL);
 INSERT INTO public.permissions VALUES (34, 'parameter:update', 'Modificar parametro', NULL, NULL, NULL, NULL);
-INSERT INTO public.permissions VALUES (35, 'ani:show', 'Consultar un ciudadano', NULL, NULL, NULL, NULL);
 
 
 --
@@ -358,8 +313,6 @@ INSERT INTO public.role_permissions VALUES (285, 1, 31, 2, '2024-01-31 18:43:55.
 INSERT INTO public.role_permissions VALUES (286, 1, 32, 2, '2024-01-31 18:43:55.421249', 2, '2024-01-31 18:43:55.421249');
 INSERT INTO public.role_permissions VALUES (287, 1, 33, 2, '2024-01-31 18:43:55.422327', 2, '2024-01-31 18:43:55.422327');
 INSERT INTO public.role_permissions VALUES (288, 1, 34, 2, '2024-01-31 18:43:55.422327', 2, '2024-01-31 18:43:55.422327');
-INSERT INTO public.role_permissions VALUES (289, 1, 35, 2, '2024-01-31 18:43:55.423378', 2, '2024-01-31 18:43:55.423378');
-
 
 --
 -- TOC entry 4859 (class 0 OID 33334)
@@ -367,7 +320,9 @@ INSERT INTO public.role_permissions VALUES (289, 1, 35, 2, '2024-01-31 18:43:55.
 -- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.roles VALUES (1, 'root', 'Root', 'Usuario Root', NULL, NULL, NULL, NULL);
+INSERT INTO public.roles VALUES (1, 'sa', 'Superadmin', 'Usuario Superadmin', NULL, NULL, NULL, NULL);
+INSERT INTO public.roles VALUES (2, 'user', 'Solicitante', 'Usuario Solicitante', NULL, NULL, NULL, NULL);
+
 
 
 --
@@ -376,8 +331,7 @@ INSERT INTO public.roles VALUES (1, 'root', 'Root', 'Usuario Root', NULL, NULL, 
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (4, 1, 'superadmin4', '', true, true, NULL, true, 'Super', NULL, 'Admin', NULL, '9009666568', '2010-01-01', '2010-01-01', 'tpsadmin32@mailinator.com', '3009090808', '6013120987', 2, '2024-01-31 18:49:15.230305', 2, '2024-01-31 18:49:15.230305');
-INSERT INTO public.users VALUES (2, 1, 'superadmin22', '$2a$10$tlRuxRGQ2DHkXJWV/6F3kuUurNB1NoiADnz2RwM.sJiGQLEXkOgam', false, true, 'eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoicm9vdCIsImVtdWxhdGVkSWQiOi0xLCJ1c2VySWQiOjIsInN1YiI6InN1cGVyYWRtaW4yMiIsImlhdCI6MTcwNzk0NDUyMSwiZXhwIjoxNzA3OTQ4MTIxfQ.8M6ci3xzE33Kk2LtjWkOmdoyC3YOfLRzLOdPhM0aBLUrKBr1nhiB8lU3oyl_y-JV9zzJiJT_El5AkxEOrSq4jg', true, 'Super', NULL, 'Admin', NULL, '9009666568', '2010-01-01', '2010-01-01', 'tpsadmin@mailinator.com', '3009090808', '6013120987', NULL, NULL, NULL, NULL);
+INSERT INTO public.users VALUES (1, 1, 'dreales4@cuc.edu.co', '$2a$10$tlRuxRGQ2DHkXJWV/6F3kuUurNB1NoiADnz2RwM.sJiGQLEXkOgam', true, true, NULL, true, 'Super', 'Admin', '10482899512', NULL, NULL, NULL, NULL);
 
 
 --
@@ -443,13 +397,7 @@ SELECT pg_catalog.setval('public.seq_roles_id', 2, false);
 SELECT pg_catalog.setval('public.seq_users_id', 4, true);
 
 
---
--- TOC entry 4685 (class 2606 OID 33319)
--- Name: ani ani_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
 
-ALTER TABLE ONLY public.ani
-    ADD CONSTRAINT ani_pkey PRIMARY KEY (cedula);
 
 
 --

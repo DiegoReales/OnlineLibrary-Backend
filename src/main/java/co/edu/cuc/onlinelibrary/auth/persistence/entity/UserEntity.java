@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
@@ -35,16 +33,9 @@ public class UserEntity extends AuditorEntity {
 
     private Boolean active;
 
-    private String firstname;
-    private String secondname;
-    private String firstsurname;
-    private String secondsurname;
+    private String name;
+    private String lastname;
     private String dni;
-    private LocalDate dniexpdate;
-    private LocalDate birthdate;
-    private String email;
-    private String celularphone;
-    private String localphone;
 
     @ManyToOne
     @JoinColumn(name = "role_id", insertable = false, updatable = false)

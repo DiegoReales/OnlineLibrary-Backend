@@ -9,10 +9,12 @@ import co.edu.cuc.onlinelibrary.auth.domain.repository.IUserRepository;
 import co.edu.cuc.onlinelibrary.auth.domain.service.IPasswordRecovery;
 import co.edu.cuc.onlinelibrary.auth.domain.service.IUserService;
 import co.edu.cuc.onlinelibrary.auth.domain.util.CustomPage;
+import co.edu.cuc.onlinelibrary.auth.domain.util.PasswordUtil;
 import co.edu.cuc.onlinelibrary.parameter.domain.service.IParameterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,9 @@ public class UserService implements IUserService {
     private static final String NOT_FOUND_TEXT = "Usuario no encontrado";
 
     private final IUserRepository userRepository;
-    private final IPasswordRecovery passwordRecovery;
-    private final IParameterService parameterService;
+    private final PasswordEncoder passwordEncoder;
+    //private final IPasswordRecovery passwordRecovery;
+    //private final IParameterService parameterService;
 
     @Override
     public UserDto findTopByUsername(String username) {
@@ -59,18 +62,23 @@ public class UserService implements IUserService {
             throw new HttpBadRequestException("¡Nombre de usuario " + requestBody.getUsername() + " ya existe!");
         }
 
+        if (!requestBody.getPassword().equals(requestBody.getPasswordConfirm())) {
+            throw new HttpBadRequestException("¡Las contraseñas no coinciden!");
+        }
+
         UserDto userDto = new UserDto();
         userDto.fillFromUserRequestBody(requestBody);
-        userDto.setPassword("no_password");
-        userDto.setSingleSession(true);
-        userDto.setChangePassword(true);
+        userDto.setPassword(passwordEncoder.encode(requestBody.getPassword()));
+        userDto.setSingleSession(false);
+        userDto.setChangePassword(false);
 
         userDto = this.save(userDto);
 
+        /*
         int passwordLength = parameterService.getIntegerValueByKey(AuthParams.AUTH_PASSWORD_LENGTH);
         long expirationMinutes = parameterService.getIntegerValueByKey(AuthParams.AUTH_PASSWORD_EXPMIN);
         this.passwordRecovery.createPasswordRecovery(userDto.getId(), passwordLength, expirationMinutes);
-
+         */
         return userDto;
     }
 

@@ -3,8 +3,10 @@ package co.edu.cuc.onlinelibrary.auth.web.controller;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.ActionLogDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.ChangePasswordDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.DefaultResponse;
+import co.edu.cuc.onlinelibrary.auth.domain.dto.UserDto;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.AuthRefreshRequestBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.AuthRequestBody;
+import co.edu.cuc.onlinelibrary.auth.domain.dto.requestbody.SignUpRequestBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.responsebody.AuthRefreshTokenResponseBody;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.responsebody.AuthResponseBody;
 import co.edu.cuc.onlinelibrary.auth.domain.enums.ActionLogEnum;
@@ -32,18 +34,32 @@ public class AuthController {
     private final IAuthService authService;
     private final AuthUtil authUtil;
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<AuthResponseBody> login(@RequestBody @Valid AuthRequestBody authRequestBody, HttpServletRequest request) {
+    @PostMapping(value = "/signin")
+    public ResponseEntity<AuthResponseBody> signIn(@RequestBody @Valid AuthRequestBody authRequestBody, HttpServletRequest request) {
         String ipRemote = authUtil.getTrueClientIp();
-        AuthResponseBody authResponseBody = authService.login(authRequestBody, ipRemote);
+        AuthResponseBody authResponseBody = authService.signIn(authRequestBody, ipRemote);
 
         ActionLogDto actionLogDTO = ActionLogDto.builder()
-                .module(MODULE).action("LOGIN")
+                .module(MODULE).action("SIGNIN")
                 .message("Inicio de sesión para usuario: " + authRequestBody.getUsername())
                 .build();
 
         request.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
         return ResponseEntity.ok(authResponseBody);
+    }
+
+    @PostMapping(value = "/signup")
+    public ResponseEntity<DefaultResponse> signUp(@RequestBody @Valid SignUpRequestBody requestBody, HttpServletRequest request) {
+        String ipRemote = authUtil.getTrueClientIp();
+        UserDto user = authService.signUp(requestBody);
+
+        ActionLogDto actionLogDTO = ActionLogDto.builder()
+                .module(MODULE).action("SIGNUP")
+                .message("Registro de usuario: " + user.getUsername() + " desde: " + ipRemote)
+                .build();
+
+        request.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
+        return ResponseEntity.ok(DefaultResponse.createOkMessage());
     }
 
     @PostMapping(value = "/refresh-token")

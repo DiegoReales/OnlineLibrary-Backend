@@ -12,9 +12,7 @@ import java.io.Serializable;
 public class UserDto implements Serializable {
     private Integer id;
     private String username;
-    private String firstname;
-    private String secondname;
-    private String firstsurname;
-    private String secondsurname;
+    private String name;
+    private String lastname;
     private String dni;
 }
