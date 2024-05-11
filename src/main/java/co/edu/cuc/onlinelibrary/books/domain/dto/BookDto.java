@@ -24,7 +24,7 @@ public class BookDto extends AuditorDto {
     public void fillFromRequestBody(BookRequestBody req) {
         this.authorId = req.getAuthorId();
         this.isbn = req.getIsbn();
-        this.title = req.getIsbn();
+        this.title = req.getTitle();
         this.description = req.getDescription();
         this.stock = req.getStock();
         this.available = req.getAvailable();
