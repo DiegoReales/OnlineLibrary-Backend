@@ -31,6 +31,12 @@ public class BookBorrowedRepository implements IBookBorrowedRepository {
     }
 
     @Override
+    public List<BookBorrowedDto> findByUserIdAndStatus(int userId, Integer status) {
+        List<BookBorrowedEntity> entities = bookBorrowedCrudRepository.findByUserIdAndStatus(userId, status);
+        return entities.stream().map(bookBorrowedMapper::toBookBorrowedDto).toList();
+    }
+
+    @Override
     public Optional<BookBorrowedDto> findById(Integer bookBorrowedId) {
         return bookBorrowedCrudRepository.findById(bookBorrowedId).map(bookBorrowedMapper::toBookBorrowedDto);
     }

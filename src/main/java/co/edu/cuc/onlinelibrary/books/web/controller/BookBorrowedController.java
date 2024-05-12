@@ -2,6 +2,7 @@ package co.edu.cuc.onlinelibrary.books.web.controller;
 
 import co.edu.cuc.onlinelibrary.auth.domain.dto.ActionLogDto;
 import co.edu.cuc.onlinelibrary.auth.domain.enums.ActionLogEnum;
+import co.edu.cuc.onlinelibrary.auth.domain.util.AuthUtil;
 import co.edu.cuc.onlinelibrary.books.domain.dto.BookBorrowedDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookCheckOutRequestBody;
 import co.edu.cuc.onlinelibrary.books.domain.service.IBookBorrowedService;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public class BookBorrowedController {
 
     private final IBookBorrowedService bookBorrowedService;
     private final HttpServletRequest servletRequest;
+
+    private final AuthUtil authUtil;
 
     @GetMapping
     public ResponseEntity<List<BookBorrowedDto>> index() {
@@ -46,6 +50,20 @@ public class BookBorrowedController {
         servletRequest.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/pending/me")
+    public ResponseEntity<List<BookBorrowedDto>> getAllBooksBorrowedPendingMe(Authentication auth) {
+        int userId = authUtil.getUserId(auth);
+        List<BookBorrowedDto> response = bookBorrowedService.findPendingByUseId(userId);
+
+        ActionLogDto actionLogDTO = ActionLogDto.builder()
+                .module(MODULE).action("READ")
+                .message("Listar todos los libros prestados pendientes.")
+                .build();
+        servletRequest.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/finished")
     public ResponseEntity<List<BookBorrowedDto>> getAllBooksBorrowedFinished() {
         List<BookBorrowedDto> response = bookBorrowedService.findFinished();
@@ -71,9 +89,10 @@ public class BookBorrowedController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<BookBorrowedDto> checkout(@RequestBody BookCheckOutRequestBody requestBody) {
+    public ResponseEntity<BookBorrowedDto> checkout(@RequestBody BookCheckOutRequestBody requestBody, Authentication auth) {
+        int userId = authUtil.getUserId(auth);
+        requestBody.setUserId(userId);
         BookBorrowedDto response = bookBorrowedService.checkOut(requestBody);
-
         ActionLogDto actionLogDTO = ActionLogDto.builder()
                 .module(MODULE).action("CREATE")
                 .message("CheckOut libro: " + response.getBookId() + ", id_prestamo: " + response.getId())

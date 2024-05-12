@@ -9,7 +9,9 @@ public interface IBookBorrowedRepository {
     List<BookBorrowedDto> findAll();
 
     List<BookBorrowedDto> findByStatus(Integer status);
+    List<BookBorrowedDto> findByUserIdAndStatus(int userId, Integer status);
 
     Optional<BookBorrowedDto> findById(Integer bookBorrowedId);
     BookBorrowedDto save(BookBorrowedDto bookBorrowedDto);
+
 }

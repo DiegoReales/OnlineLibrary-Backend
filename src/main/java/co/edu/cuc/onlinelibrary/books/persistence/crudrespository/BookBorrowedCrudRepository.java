@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookBorrowedCrudRepository extends CrudRepository<BookBorrowedEntity, Integer> {
     List<BookBorrowedEntity> findByStatus(Integer status);
+    List<BookBorrowedEntity> findByUserIdAndStatus(Integer userId, Integer status);
 }

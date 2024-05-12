@@ -9,6 +9,7 @@ public interface IBookBorrowedService {
     List<BookBorrowedDto> findAll();
 
     List<BookBorrowedDto> findPending();
+    List<BookBorrowedDto> findPendingByUseId(int userId);
 
     List<BookBorrowedDto> findFinished();
 
@@ -16,4 +17,5 @@ public interface IBookBorrowedService {
 
     BookBorrowedDto checkOut(BookCheckOutRequestBody requestBody);
     BookBorrowedDto checkIn(Integer bookBorrowedId);
+
 }

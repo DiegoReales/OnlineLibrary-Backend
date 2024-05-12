@@ -36,6 +36,11 @@ public class BookBorrowedService implements IBookBorrowedService {
     }
 
     @Override
+    public List<BookBorrowedDto> findPendingByUseId(int userId) {
+        return bookBorrowedRepository.findByUserIdAndStatus(userId, BorrowStatusEnum.PENDING.getValue());
+    }
+
+    @Override
     public List<BookBorrowedDto> findFinished() {
         return bookBorrowedRepository.findByStatus(BorrowStatusEnum.FINISHED.getValue());
     }
