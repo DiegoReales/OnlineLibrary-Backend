@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,6 +22,12 @@ public class BookRespository implements IBookRepository {
     @Override
     public List<BookDto> findAll() {
         List<BookEntity> entities = (List<BookEntity>) bookCrudRepository.findAll();
+        return entities.stream().map(bookMapper::toBookDto).toList();
+    }
+
+    @Override
+    public List<BookDto> findAvailable() {
+        List<BookEntity> entities = bookCrudRepository.findByStatus(1);
         return entities.stream().map(bookMapper::toBookDto).toList();
     }
 

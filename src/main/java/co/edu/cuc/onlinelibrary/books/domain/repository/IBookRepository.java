@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface IBookRepository {
     List<BookDto> findAll();
+    List<BookDto> findAvailable();
     Optional<BookDto> findById(Integer bookId);
     BookDto save(BookDto book);
 }

@@ -38,6 +38,19 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<BookDto>> getBookAvailable() {
+        List<BookDto> response = bookService.findAvailable();
+
+        ActionLogDto actionLogDTO = ActionLogDto.builder()
+                .module(MODULE).action("READ")
+                .message("Listar todos los libros disponibles.")
+                .build();
+
+        servletRequest.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/{book_id}")
     public ResponseEntity<BookDto> show(@PathVariable("book_id") Integer bookId) {
         BookDto response = bookService.findById(bookId);
