@@ -33,10 +33,16 @@ public class BookDto extends AuditorDto {
 
     public void decrementAvailable() {
         this.available--;
+        if (this.available == 0) {
+            this.status = 2;
+        }
     }
 
 
     public void incrementAvailable() {
         this.available++;
+        if (this.available > 0) {
+            this.status = 1;
+        }
     }
 }
