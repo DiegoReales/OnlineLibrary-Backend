@@ -3,11 +3,8 @@ package co.edu.cuc.onlinelibrary.books.web.controller;
 import co.edu.cuc.onlinelibrary.auth.domain.dto.ActionLogDto;
 import co.edu.cuc.onlinelibrary.auth.domain.enums.ActionLogEnum;
 import co.edu.cuc.onlinelibrary.books.domain.dto.AuthorDto;
-import co.edu.cuc.onlinelibrary.books.domain.dto.BookBorrowedDto;
 import co.edu.cuc.onlinelibrary.books.domain.dto.BookDto;
-import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookCheckOutRequestBody;
 import co.edu.cuc.onlinelibrary.books.domain.dto.request.BookRequestBody;
-import co.edu.cuc.onlinelibrary.books.domain.service.IBookBorrowedService;
 import co.edu.cuc.onlinelibrary.books.domain.service.IBookService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +31,19 @@ public class BookController {
                 .module(MODULE).action("READ")
                 .message("Listar todos los libros.")
                 .build();
+        servletRequest.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<BookDto>> getBookAvailable() {
+        List<BookDto> response = bookService.findAvailable();
+
+        ActionLogDto actionLogDTO = ActionLogDto.builder()
+                .module(MODULE).action("READ")
+                .message("Listar todos los libros disponibles.")
+                .build();
+
         servletRequest.setAttribute(ActionLogEnum.ATTRIBUTE_NAME.toString(), actionLogDTO);
         return ResponseEntity.ok(response);
     }

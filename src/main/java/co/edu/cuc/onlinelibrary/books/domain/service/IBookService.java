@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IBookService {
     List<BookDto> findAll();
+    List<BookDto> findAvailable();
 
     BookDto findById(Integer bookId);
 
@@ -18,4 +19,5 @@ public interface IBookService {
     BookDto save(BookDto book);
 
     void deleteById(Integer bookId);
+
 }

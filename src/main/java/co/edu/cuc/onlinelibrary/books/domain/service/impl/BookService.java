@@ -28,6 +28,13 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<BookDto> findAvailable() {
+        return bookRepository.findAvailable().stream()
+                .filter(e -> e.getActive().equals(Boolean.TRUE))
+                .toList();
+    }
+
+    @Override
     public BookDto findById(Integer bookId) {
         return bookRepository.findById(bookId)
                 .filter(e -> e.getActive().equals(Boolean.TRUE))
